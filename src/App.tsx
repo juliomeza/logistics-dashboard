@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Home, DollarSign, Settings, Building, Users, Truck, ChevronDown, ChevronUp } from 'lucide-react'; // Icons for view tabs
+import { Home, DollarSign, Settings, Building, Users, Truck, ChevronDown, ChevronUp, Calendar } from 'lucide-react'; // Icons for view tabs
 import DashboardLayout from './components/layout/DashboardLayout';
 import ViewContainer from './components/layout/ViewContainer';
 import { subsidiaries as staticSubsidiaries } from './data/mockData';
@@ -10,6 +10,7 @@ import COOView from './views/COOView';
 import SubsidiariesView from './views/SubsidiariesView';
 import ClientsView from './views/ClientsView';
 import LogisticsView from './views/LogisticsView';
+import PeriodSelector from './components/common/PeriodSelector';
 
 type Period = 'daily' | 'weekly' | 'monthly' | 'quarterly' | 'annual';
 type View = 'ceo' | 'cfo' | 'coo' | 'subsidiaries' | 'clients' | 'logistics';
@@ -34,10 +35,23 @@ function App() {
   const [selectedPeriod, setSelectedPeriod] = useState<Period>('monthly');
   const [currentView, setCurrentView] = useState<View>('ceo');
   const [isViewDropdownOpen, setIsViewDropdownOpen] = useState(false);
+  const [isPeriodDropdownOpen, setIsPeriodDropdownOpen] = useState(false);
   
   const toggleViewDropdown = () => {
     setIsViewDropdownOpen(!isViewDropdownOpen);
   };
+  
+  const togglePeriodDropdown = () => {
+    setIsPeriodDropdownOpen(!isPeriodDropdownOpen);
+  };
+  
+  // Time period options
+  const periods = [
+    { value: 'weekly', label: 'Weekly' },
+    { value: 'monthly', label: 'Monthly' },
+    { value: 'quarterly', label: 'Quarterly' },
+    { value: 'annual', label: 'Annual' },
+  ];
 
   // Memoize data fetching/generation to avoid re-calculating on every render
   const dashboardData = useMemo(() => {
@@ -116,54 +130,100 @@ function App() {
 
   const currentViewConfig = views.find(v => v.id === currentView) || views[0];
   
-  // Mobile view selector dropdown
-  const MobileViewSelector = () => (
-    <div className="md:hidden fixed top-4 right-4 z-30 w-48">
-      <button
-        onClick={toggleViewDropdown}
-        className="w-full flex items-center justify-between px-4 py-2 bg-white dark:bg-gray-800 rounded-md shadow-sm border border-gray-200 dark:border-gray-700"
-      >
-        <div className="flex items-center overflow-hidden">
-          {currentViewConfig && (
-            <>
-              <currentViewConfig.icon size={18} className="mr-2 flex-shrink-0 text-indigo-500 dark:text-indigo-400" />
-              <span className="font-medium text-gray-800 dark:text-gray-200 truncate">
-                {currentViewConfig.label}
-              </span>
-            </>
-          )}
-        </div>
-        {isViewDropdownOpen ? <ChevronUp size={18} className="flex-shrink-0 ml-1" /> : <ChevronDown size={18} className="flex-shrink-0 ml-1" />}
-      </button>
-
-      {isViewDropdownOpen && (
-        <div className="mt-2 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 overflow-hidden z-50 absolute right-0 w-full">
-          <div className="py-1 max-h-60 overflow-y-auto">
-            {views.map((view) => {
-              const Icon = view.icon;
-              const isSelected = view.id === currentView;
-              return (
-                <button
-                  key={view.id}
-                  onClick={() => {
-                    setCurrentView(view.id);
-                    setIsViewDropdownOpen(false);
-                  }}
-                  className={`w-full text-left px-4 py-2 text-sm flex items-center ${
-                    isSelected
-                      ? 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300'
-                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                  }`}
-                >
-                  <Icon size={16} className="mr-2" />
-                  {view.label}
-                </button>
-              );
-            })}
+  // Mobile view selector dropdown and period selector
+  const MobileSelectors = () => (
+    <>
+      {/* View Menu */}
+      <div className="md:hidden fixed top-4 right-4 z-40 w-48">
+        <button
+          onClick={toggleViewDropdown}
+          className="w-full flex items-center justify-between px-4 py-2 bg-white dark:bg-gray-800 rounded-md shadow-sm border border-gray-200 dark:border-gray-700"
+        >
+          <div className="flex items-center overflow-hidden">
+            {currentViewConfig && (
+              <>
+                <currentViewConfig.icon size={18} className="mr-2 flex-shrink-0 text-indigo-500 dark:text-indigo-400" />
+                <span className="font-medium text-gray-800 dark:text-gray-200 truncate">
+                  {currentViewConfig.label}
+                </span>
+              </>
+            )}
           </div>
-        </div>
-      )}
-    </div>
+          {isViewDropdownOpen ? <ChevronUp size={18} className="flex-shrink-0 ml-1" /> : <ChevronDown size={18} className="flex-shrink-0 ml-1" />}
+        </button>
+
+        {isViewDropdownOpen && (
+          <div className="mt-2 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 overflow-hidden z-50 absolute right-0 w-full">
+            <div className="py-1 max-h-60 overflow-y-auto">
+              {views.map((view) => {
+                const Icon = view.icon;
+                const isSelected = view.id === currentView;
+                return (
+                  <button
+                    key={view.id}
+                    onClick={() => {
+                      setCurrentView(view.id);
+                      setIsViewDropdownOpen(false);
+                    }}
+                    className={`w-full text-left px-4 py-2 text-sm flex items-center ${
+                      isSelected
+                        ? 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300'
+                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    }`}
+                  >
+                    <Icon size={16} className="mr-2" />
+                    {view.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+      
+      {/* Custom Period Selector - positioned below the view menu */}
+      <div className="md:hidden fixed top-16 right-4 z-30 w-48">
+        <button
+          onClick={togglePeriodDropdown}
+          className="w-full flex items-center justify-between px-4 py-2 bg-white dark:bg-gray-800 rounded-md shadow-sm border border-gray-200 dark:border-gray-700"
+        >
+          <div className="flex items-center overflow-hidden">
+            <Calendar size={18} className="mr-2 flex-shrink-0 text-indigo-500 dark:text-indigo-400" />
+            <span className="font-medium text-gray-800 dark:text-gray-200 truncate">
+              {periods.find(p => p.value === selectedPeriod)?.label}
+            </span>
+          </div>
+          {isPeriodDropdownOpen ? <ChevronUp size={18} className="flex-shrink-0 ml-1" /> : <ChevronDown size={18} className="flex-shrink-0 ml-1" />}
+        </button>
+
+        {isPeriodDropdownOpen && (
+          <div className="mt-2 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 overflow-hidden z-30 absolute right-0 w-full">
+            <div className="py-1 max-h-60 overflow-y-auto">
+              {periods.map((period) => {
+                const isSelected = period.value === selectedPeriod;
+                return (
+                  <button
+                    key={period.value}
+                    onClick={() => {
+                      setSelectedPeriod(period.value as Period);
+                      setIsPeriodDropdownOpen(false);
+                    }}
+                    className={`w-full text-left px-4 py-2 text-sm flex items-center ${
+                      isSelected
+                        ? 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300'
+                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    }`}
+                  >
+                    <Calendar size={16} className="mr-2" />
+                    {period.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 
   return (
@@ -175,8 +235,8 @@ function App() {
         onPeriodChange={setSelectedPeriod}
         currentViewTitle={currentViewConfig.label}
       >
-        {/* Mobile View Selector Dropdown */}
-        <MobileViewSelector />
+        {/* Mobile Selectors (View + Period) */}
+        <MobileSelectors />
         
         {/* Desktop View Navigation Tabs */}
         <div className="mb-6 border-b border-gray-200 dark:border-gray-700 w-full max-w-[1200px] mx-auto hidden md:block">

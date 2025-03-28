@@ -50,7 +50,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                 </p>
               )}
             </div>
-            <PeriodSelector selectedPeriod={selectedPeriod} onPeriodChange={onPeriodChange} />
+            <div className="hidden md:block">
+              <PeriodSelector selectedPeriod={selectedPeriod} onPeriodChange={onPeriodChange} />
+            </div>
           </div>
 
           {/* Main Content Area */}
