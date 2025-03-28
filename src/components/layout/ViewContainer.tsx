@@ -10,7 +10,7 @@ interface ViewContainerProps {
  */
 const ViewContainer: React.FC<ViewContainerProps> = ({ children }) => {
   return (
-    <div className="w-full max-w-[1200px] mx-auto space-y-6 md:mt-0 mt-24">
+    <div className="w-full max-w-[1200px] mx-auto space-y-6 md:mt-0 mt-32">
       {children}
     </div>
   );

@@ -130,7 +130,10 @@ function App() {
   const currentViewConfig = views.find(v => v.id === currentView) || views[0];
   
   // Mobile view selector dropdown and period selector
-  const MobileSelectors = () => (
+  const MobileSelectors = () => {
+    const selectedSubsidiary = staticSubsidiaries.find(s => s.id === selectedSubsidiaryId);
+    
+    return (
     <>
       {/* View Menu */}
       <div className="md:hidden fixed top-4 right-4 z-40 w-48">
@@ -222,8 +225,35 @@ function App() {
           </div>
         )}
       </div>
+      
+      {/* Selection Info - shows below the company selector */}
+      <div className="md:hidden fixed top-16 left-4 z-20 w-48 bg-white dark:bg-gray-800 px-3 py-2 rounded-md shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="flex flex-col">
+          <div className="flex items-center">
+            <Building size={12} className="text-gray-500 dark:text-gray-400 mr-1.5" />
+            <span className="text-xs font-medium text-gray-700 dark:text-gray-300 truncate">
+              {selectedSubsidiary?.name}
+            </span>
+          </div>
+          
+          <div className="flex items-center mt-1.5">
+            <currentViewConfig.icon size={12} className="text-gray-500 dark:text-gray-400 mr-1.5" />
+            <span className="text-xs font-medium text-gray-700 dark:text-gray-300 truncate">
+              {currentViewConfig?.label}
+            </span>
+          </div>
+          
+          <div className="flex items-center mt-1.5">
+            <Calendar size={12} className="text-gray-500 dark:text-gray-400 mr-1.5" />
+            <span className="text-xs font-medium text-gray-700 dark:text-gray-300 truncate">
+              {periods.find(p => p.value === selectedPeriod)?.label}
+            </span>
+          </div>
+        </div>
+      </div>
     </>
-  );
+    );
+  };
 
   return (
       <DashboardLayout
