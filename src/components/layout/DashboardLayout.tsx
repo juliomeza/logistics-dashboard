@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Sidebar from './Sidebar';
 import { Subsidiary } from '../../data/types';
 import PeriodSelector from '../common/PeriodSelector';

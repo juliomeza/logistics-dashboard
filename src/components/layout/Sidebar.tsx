@@ -22,7 +22,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   // Mobile company selector dropdown
   const MobileCompanySelector = () => (
-    <div className="md:hidden fixed top-4 right-4 z-30 w-48">
+    <div className="md:hidden fixed top-4 left-4 z-30 w-48">
       <button
         onClick={toggleCompanyDropdown}
         className="w-full flex items-center justify-between px-4 py-2 bg-white dark:bg-gray-800 rounded-md shadow-sm border border-gray-200 dark:border-gray-700"
@@ -41,7 +41,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       </button>
 
       {isCompanyDropdownOpen && (
-        <div className="mt-2 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 overflow-hidden z-50 absolute right-0 w-full">
+        <div className="mt-2 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 overflow-hidden z-50 absolute left-0 w-full">
           <div className="py-1 max-h-60 overflow-y-auto">
             {subsidiaries.map((sub) => {
               const isSelected = sub.id === selectedSubsidiaryId;

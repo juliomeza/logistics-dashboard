@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Home, DollarSign, Settings, Building, Users, Truck } from 'lucide-react'; // Icons for view tabs
+import { Home, DollarSign, Settings, Building, Users, Truck, ChevronDown, ChevronUp } from 'lucide-react'; // Icons for view tabs
 import DashboardLayout from './components/layout/DashboardLayout';
 import ViewContainer from './components/layout/ViewContainer';
 import { subsidiaries as staticSubsidiaries } from './data/mockData';
@@ -33,6 +33,11 @@ function App() {
   const [selectedSubsidiaryId, setSelectedSubsidiaryId] = useState<string>(staticSubsidiaries[0].id);
   const [selectedPeriod, setSelectedPeriod] = useState<Period>('monthly');
   const [currentView, setCurrentView] = useState<View>('ceo');
+  const [isViewDropdownOpen, setIsViewDropdownOpen] = useState(false);
+  
+  const toggleViewDropdown = () => {
+    setIsViewDropdownOpen(!isViewDropdownOpen);
+  };
 
   // Memoize data fetching/generation to avoid re-calculating on every render
   const dashboardData = useMemo(() => {
@@ -110,6 +115,56 @@ function App() {
   };
 
   const currentViewConfig = views.find(v => v.id === currentView) || views[0];
+  
+  // Mobile view selector dropdown
+  const MobileViewSelector = () => (
+    <div className="md:hidden fixed top-4 right-4 z-30 w-48">
+      <button
+        onClick={toggleViewDropdown}
+        className="w-full flex items-center justify-between px-4 py-2 bg-white dark:bg-gray-800 rounded-md shadow-sm border border-gray-200 dark:border-gray-700"
+      >
+        <div className="flex items-center overflow-hidden">
+          {currentViewConfig && (
+            <>
+              <currentViewConfig.icon size={18} className="mr-2 flex-shrink-0 text-indigo-500 dark:text-indigo-400" />
+              <span className="font-medium text-gray-800 dark:text-gray-200 truncate">
+                {currentViewConfig.label}
+              </span>
+            </>
+          )}
+        </div>
+        {isViewDropdownOpen ? <ChevronUp size={18} className="flex-shrink-0 ml-1" /> : <ChevronDown size={18} className="flex-shrink-0 ml-1" />}
+      </button>
+
+      {isViewDropdownOpen && (
+        <div className="mt-2 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 overflow-hidden z-50 absolute right-0 w-full">
+          <div className="py-1 max-h-60 overflow-y-auto">
+            {views.map((view) => {
+              const Icon = view.icon;
+              const isSelected = view.id === currentView;
+              return (
+                <button
+                  key={view.id}
+                  onClick={() => {
+                    setCurrentView(view.id);
+                    setIsViewDropdownOpen(false);
+                  }}
+                  className={`w-full text-left px-4 py-2 text-sm flex items-center ${
+                    isSelected
+                      ? 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300'
+                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  }`}
+                >
+                  <Icon size={16} className="mr-2" />
+                  {view.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
 
   return (
       <DashboardLayout
@@ -120,8 +175,11 @@ function App() {
         onPeriodChange={setSelectedPeriod}
         currentViewTitle={currentViewConfig.label}
       >
-        {/* View Navigation Tabs */}
-        <div className="mb-6 border-b border-gray-200 dark:border-gray-700 w-full max-w-[1200px] mx-auto">
+        {/* Mobile View Selector Dropdown */}
+        <MobileViewSelector />
+        
+        {/* Desktop View Navigation Tabs */}
+        <div className="mb-6 border-b border-gray-200 dark:border-gray-700 w-full max-w-[1200px] mx-auto hidden md:block">
             <nav className="-mb-px flex space-x-4 overflow-x-auto" aria-label="Tabs">
             {views.map((view) => {
                  const Icon = view.icon;
