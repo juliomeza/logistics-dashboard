@@ -5,6 +5,7 @@ import SimpleLineChart from '../components/charts/SimpleLineChart';
 import SimpleBarChart from '../components/charts/SimpleBarChart';
 import DataTable from '../components/tables/DataTable';
 import Card from '../components/common/Card';
+import { KpiCardGrid, TwoColumnGrid, ThreeColumnGrid, FullWidthSection } from '../components/layout/StandardGrids';
 import { Warehouse, TruckIcon, DollarSign, RotateCcw } from 'lucide-react';
 
 interface LogisticsViewProps {
@@ -30,14 +31,14 @@ const LogisticsView: React.FC<LogisticsViewProps> = ({
   return (
     <div className="space-y-6">
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <KpiCardGrid>
         {logisticsKpis.map((kpi, index) => (
           <KpiCard key={kpi.title} kpi={kpi} icon={icons[index % icons.length]} />
         ))}
-      </div>
+      </KpiCardGrid>
 
       {/* Warehouse Utilization and Logistics Cost Trends */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <TwoColumnGrid>
         <Card>
           <SimpleLineChart
             data={warehouseUtilizationData}
@@ -55,39 +56,41 @@ const LogisticsView: React.FC<LogisticsViewProps> = ({
             title="Logistics Cost Breakdown"
           />
         </Card>
-      </div>
+      </TwoColumnGrid>
 
       {/* Carrier Performance Metrics */}
-      <Card>
-        <DataTable
-          title="Carrier Performance"
-          data={carrierPerformance}
-          keyExtractor={(item) => item.id}
-          columns={[
-            { key: 'name', header: 'Carrier Name' },
-            { 
-              key: 'onTimePerformance', 
-              header: 'On-Time (%)', 
-              render: (item) => `${item.onTimePerformance.toFixed(1)}%`,
-              className: 'text-green-600 dark:text-green-400 font-medium'
-            },
-            { 
-              key: 'costPerShipment', 
-              header: 'Cost/Shipment', 
-              render: (item) => `$${item.costPerShipment.toFixed(2)}` 
-            },
-            { 
-              key: 'damageRate', 
-              header: 'Damage Rate (%)', 
-              render: (item) => `${item.damageRate.toFixed(1)}%`,
-              className: 'text-red-600 dark:text-red-400'
-            },
-          ]}
-        />
-      </Card>
+      <FullWidthSection>
+        <Card>
+          <DataTable
+            title="Carrier Performance"
+            data={carrierPerformance}
+            keyExtractor={(item) => item.id}
+            columns={[
+              { key: 'name', header: 'Carrier Name' },
+              { 
+                key: 'onTimePerformance', 
+                header: 'On-Time (%)', 
+                render: (item) => `${item.onTimePerformance.toFixed(1)}%`,
+                className: 'text-green-600 dark:text-green-400 font-medium'
+              },
+              { 
+                key: 'costPerShipment', 
+                header: 'Cost/Shipment', 
+                render: (item) => `$${item.costPerShipment.toFixed(2)}` 
+              },
+              { 
+                key: 'damageRate', 
+                header: 'Damage Rate (%)', 
+                render: (item) => `${item.damageRate.toFixed(1)}%`,
+                className: 'text-red-600 dark:text-red-400'
+              },
+            ]}
+          />
+        </Card>
+      </FullWidthSection>
 
       {/* Additional Logistics Insights */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <ThreeColumnGrid>
         <Card>
           <h4 className="text-md font-semibold mb-4 text-gray-700 dark:text-gray-300">
             Logistics Performance Insights
@@ -197,7 +200,7 @@ const LogisticsView: React.FC<LogisticsViewProps> = ({
             </div>
           </div>
         </Card>
-      </div>
+      </ThreeColumnGrid>
     </div>
   );
 };

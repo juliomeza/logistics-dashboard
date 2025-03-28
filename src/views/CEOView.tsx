@@ -1,21 +1,22 @@
 import React from 'react';
 import { KpiData, TimeSeriesData, SubsidiaryPerformanceData, AlertData, GaugeData } from '../data/types';
 import KpiCard from '../components/common/KpiCard';
-import SimpleLineChart from '../components/charts/SimpleLineChart'; // Assuming you created this
+import SimpleLineChart from '../components/charts/SimpleLineChart';
 import DataTable from '../components/tables/DataTable';
 import Card from '../components/common/Card';
-// Import other chart types as needed (e.g., SimpleGaugeChart)
+import { KpiCardGrid, ThreeColumnGrid } from '../components/layout/StandardGrids';
 import { DollarSign, Activity, Smile, BarChart, AlertTriangle, Info, XCircle } from 'lucide-react';
 
 interface CEOViewProps {
   kpis: KpiData[];
   revenueTrend: TimeSeriesData[];
+  marginTrendCEO: TimeSeriesData[];
   roicGauge: GaugeData[]; // Assuming gauge data format
   subsidiaryComparison: SubsidiaryPerformanceData[];
   alerts: AlertData[];
 }
 
-const CEOView: React.FC<CEOViewProps> = ({ kpis, revenueTrend, roicGauge, subsidiaryComparison, alerts }) => {
+const CEOView: React.FC<CEOViewProps> = ({ kpis, revenueTrend, marginTrendCEO, roicGauge, subsidiaryComparison, alerts }) => {
     const icons = [<DollarSign size={20} />, <Activity size={20} />, <BarChart size={20} />, <Smile size={20}/>]; // Example icons
 
     const getAlertIcon = (severity: 'info' | 'warning' | 'error') => {
@@ -38,22 +39,30 @@ const CEOView: React.FC<CEOViewProps> = ({ kpis, revenueTrend, roicGauge, subsid
   return (
     <div className="space-y-6">
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <KpiCardGrid>
         {kpis.map((kpi, index) => (
           <KpiCard key={kpi.title} kpi={kpi} icon={icons[index % icons.length]}/>
         ))}
-      </div>
+      </KpiCardGrid>
 
       {/* Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2">
+      <ThreeColumnGrid>
+        <Card>
           <SimpleLineChart
             data={revenueTrend}
             lines={[
-                { dataKey: 'Revenue', color: '#8884d8' },
+                { dataKey: 'Revenue', color: '#8884d8' }
+            ]}
+            title="Revenue Trend"
+          />
+        </Card>
+        <Card>
+          <SimpleLineChart
+            data={marginTrendCEO}
+            lines={[
                 { dataKey: 'Margin', color: '#82ca9d' }
             ]}
-            title="Revenue & Margin Trend"
+            title="Margin Trend (%)"
           />
         </Card>
         <Card>
@@ -67,10 +76,10 @@ const CEOView: React.FC<CEOViewProps> = ({ kpis, revenueTrend, roicGauge, subsid
              </div>
            </div>
         </Card>
-      </div>
+      </ThreeColumnGrid>
 
       {/* Subsidiary Table and Alerts */}
-       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+       <ThreeColumnGrid>
           <Card className="lg:col-span-2">
                 <DataTable
                     title="Subsidiary Performance Snapshot"
@@ -101,7 +110,7 @@ const CEOView: React.FC<CEOViewProps> = ({ kpis, revenueTrend, roicGauge, subsid
                  )}
              </div>
           </Card>
-        </div>
+        </ThreeColumnGrid>
     </div>
   );
 };

@@ -5,6 +5,7 @@ import SimpleLineChart from '../components/charts/SimpleLineChart';
 import SimpleBarChart from '../components/charts/SimpleBarChart';
 import DataTable from '../components/tables/DataTable';
 import Card from '../components/common/Card';
+import { KpiCardGrid, TwoColumnGrid, ThreeColumnGrid } from '../components/layout/StandardGrids';
 import { DollarSign, TrendingUp, CalendarClock, BarChart3 } from 'lucide-react';
 
 interface CFOViewProps {
@@ -32,14 +33,14 @@ const CFOView: React.FC<CFOViewProps> = ({
   return (
     <div className="space-y-6">
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <KpiCardGrid>
         {financialKpis.map((kpi, index) => (
           <KpiCard key={kpi.title} kpi={kpi} icon={icons[index % icons.length]} />
         ))}
-      </div>
+      </KpiCardGrid>
 
       {/* Revenue vs Expenses and Margin Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <TwoColumnGrid>
         <Card>
           <SimpleBarChart
             data={revenueExpenseData}
@@ -60,10 +61,10 @@ const CFOView: React.FC<CFOViewProps> = ({
             title="Margin Trends"
           />
         </Card>
-      </div>
+      </TwoColumnGrid>
 
       {/* Working Capital and Subsidiary Profitability */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <ThreeColumnGrid>
         <Card>
           <h4 className="text-md font-semibold mb-4 text-gray-700 dark:text-gray-300">
             Working Capital Metrics
@@ -111,7 +112,7 @@ const CFOView: React.FC<CFOViewProps> = ({
             ]}
           />
         </Card>
-      </div>
+      </ThreeColumnGrid>
     </div>
   );
 };

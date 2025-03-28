@@ -34,6 +34,7 @@ import {
   export const getDashboardData = (subsidiaryId: string, period: string): {
     kpis: KpiData[],
     revenueTrend: TimeSeriesData[],
+    marginTrendCEO: TimeSeriesData[],
     roicGauge: GaugeData[],
     subsidiaryComparison: SubsidiaryPerformanceData[],
     alerts: AlertData[],
@@ -48,6 +49,7 @@ import {
     costPerUnitData: TimeSeriesData[],
     operationalComparison: SubsidiaryPerformanceData[],
     subsidiaryMatrix: SubsidiaryPerformanceData[],
+    subsidiaryKpis: KpiData[],
     financialComparisonCharts: { [key: string]: TimeSeriesData[] }, // e.g., { revenue: [...], profit: [...] }
     operationalComparisonRadar: RadarData[],
     clientKpis: KpiData[],
@@ -109,7 +111,8 @@ import {
         { title: 'Market Share', value: `${currentSubsidiaryData.marketShare}%`, change: getRandom(-1, 1, 1) },
         { title: 'Customer Satisfaction', value: `${currentSubsidiaryData.customerSatisfaction}%`, change: getRandom(-3, 3, 0) },
       ],
-      revenueTrend: generateTimeSeries(periods, ['Revenue', 'Margin'], 100000, 500000, 0),
+      revenueTrend: generateTimeSeries(periods, ['Revenue'], 100000, 500000, 0),
+      marginTrendCEO: generateTimeSeries(periods, ['Margin'], 10, 35, 1),
       roicGauge: [{ name: 'ROIC', value: currentSubsidiaryData.roic, color: '#8884d8' }], // Example color
       subsidiaryComparison: allSubsidiaryData, // For the table
       alerts: [
@@ -151,6 +154,12 @@ import {
   
       // Subsidiaries View Data
       subsidiaryMatrix: allSubsidiaryData,
+      subsidiaryKpis: [
+          { title: 'Total Subsidiaries', value: subsidiaries.length.toString(), description: 'Active business units' },
+          { title: 'Avg. Revenue Growth', value: `${(allSubsidiaryData.reduce((acc, sub) => acc + sub.revenueGrowth, 0) / allSubsidiaryData.length).toFixed(1)}%`, change: 1.8 },
+          { title: 'Best Profit Margin', value: `${Math.max(...allSubsidiaryData.map(sub => sub.profitMargin)).toFixed(1)}%`, change: 0.5 },
+          { title: 'Global Market Share', value: `${allSubsidiaryData.reduce((acc, sub) => acc + sub.marketShare, 0).toFixed(1)}%`, change: 2.3 },
+      ],
       financialComparisonCharts: {
           revenue: subsidiaries.map(sub => ({ period: sub.name, Revenue: allSubsidiaryData.find(d => d.subsidiaryId === sub.id)?.grossProfit || 0 })),
           profit: subsidiaries.map(sub => ({ period: sub.name, Margin: allSubsidiaryData.find(d => d.subsidiaryId === sub.id)?.profitMargin || 0 })),

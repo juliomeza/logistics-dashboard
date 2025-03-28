@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Home, DollarSign, Settings, Building, Users, Truck } from 'lucide-react'; // Icons for view tabs
 import DashboardLayout from './components/layout/DashboardLayout';
+import ViewContainer from './components/layout/ViewContainer';
 import { subsidiaries as staticSubsidiaries } from './data/mockData';
 import { getDashboardData } from './data/mockData';
 import CEOView from './views/CEOView';
@@ -41,54 +42,71 @@ function App() {
   }, [selectedSubsidiaryId, selectedPeriod]);
 
   const renderView = () => {
+    let viewContent;
+    
     switch (currentView) {
       case 'ceo':
-        return <CEOView
+        viewContent = <CEOView
                     kpis={dashboardData.kpis}
                     revenueTrend={dashboardData.revenueTrend}
+                    marginTrendCEO={dashboardData.marginTrendCEO}
                     roicGauge={dashboardData.roicGauge}
                     subsidiaryComparison={dashboardData.subsidiaryComparison}
                     alerts={dashboardData.alerts}
                  />;
+        break;
       case 'cfo':
-         return <CFOView
+        viewContent = <CFOView
                     financialKpis={dashboardData.financialKpis}
                     revenueExpenseData={dashboardData.revenueExpenseData}
                     marginTrend={dashboardData.marginTrend}
                     workingCapitalMetrics={dashboardData.workingCapitalMetrics}
                     profitabilityBySubsidiary={dashboardData.profitabilityBySubsidiary}
                 />;
-       case 'coo':
-         return <COOView
+        break;
+      case 'coo':
+        viewContent = <COOView
                     operationalKpis={dashboardData.operationalKpis}
                     cycleTimeGauges={dashboardData.cycleTimeGauges}
                     operationalTrend={dashboardData.operationalTrend}
                     costPerUnitData={dashboardData.costPerUnitData}
                     operationalComparison={dashboardData.operationalComparison}
                 />;
-        case 'subsidiaries':
-           return <SubsidiariesView
+        break;
+      case 'subsidiaries':
+        viewContent = <SubsidiariesView
                         subsidiaryMatrix={dashboardData.subsidiaryMatrix}
+                        subsidiaryKpis={dashboardData.subsidiaryKpis}
                         financialComparisonCharts={dashboardData.financialComparisonCharts}
                         operationalComparisonRadar={dashboardData.operationalComparisonRadar}
                    />;
-       case 'clients':
-          return <ClientsView
+        break;
+      case 'clients':
+        viewContent = <ClientsView
                         clientKpis={dashboardData.clientKpis}
                         satisfactionBySubsidiary={dashboardData.satisfactionBySubsidiary}
                         topClients={dashboardData.topClients}
                         recentFeedback={dashboardData.recentFeedback}
                     />;
-        case 'logistics':
-           return <LogisticsView
+        break;
+      case 'logistics':
+        viewContent = <LogisticsView
                         logisticsKpis={dashboardData.logisticsKpis}
                         warehouseUtilizationData={dashboardData.warehouseUtilizationData}
                         logisticsCostTrend={dashboardData.logisticsCostTrend}
                         carrierPerformance={dashboardData.carrierPerformance}
                     />;
+        break;
       default:
-        return <div>Select a view</div>;
+        viewContent = <div>Select a view</div>;
     }
+
+    // Envolver el contenido de la vista en un contenedor estándar
+    return (
+      <ViewContainer>
+        {viewContent}
+      </ViewContainer>
+    );
   };
 
   const currentViewConfig = views.find(v => v.id === currentView) || views[0];

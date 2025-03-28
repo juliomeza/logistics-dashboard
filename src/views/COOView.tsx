@@ -6,6 +6,7 @@ import SimpleGaugeChart from '../components/charts/SimpleGaugeChart';
 import SimpleBarChart from '../components/charts/SimpleBarChart';
 import DataTable from '../components/tables/DataTable';
 import Card from '../components/common/Card';
+import { KpiCardGrid, ThreeColumnGrid, FullWidthSection } from '../components/layout/StandardGrids';
 import { CheckCircle, BarChart, Truck, Activity } from 'lucide-react';
 
 interface COOViewProps {
@@ -33,14 +34,14 @@ const COOView: React.FC<COOViewProps> = ({
   return (
     <div className="space-y-6">
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <KpiCardGrid>
         {operationalKpis.map((kpi, index) => (
           <KpiCard key={kpi.title} kpi={kpi} icon={icons[index % icons.length]} />
         ))}
-      </div>
+      </KpiCardGrid>
 
       {/* Cycle Time Gauges & Operational Performance Trend*/}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <ThreeColumnGrid>
         <Card>
           <SimpleGaugeChart
             data={[cycleTimeGauges[0]]}
@@ -67,10 +68,10 @@ const COOView: React.FC<COOViewProps> = ({
             title="Operational Performance Trend"
           />
         </Card>
-      </div>
+      </ThreeColumnGrid>
 
       {/* Cost Per Unit and Subsidiary Comparison */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <ThreeColumnGrid>
         <Card>
           <SimpleBarChart
             data={costPerUnitData}
@@ -110,10 +111,10 @@ const COOView: React.FC<COOViewProps> = ({
             ]}
           />
         </Card>
-      </div>
+      </ThreeColumnGrid>
 
       {/* Additional Operational Metrics */}
-      <div className="grid grid-cols-1 gap-6">
+      <FullWidthSection>
         <Card>
           <h4 className="text-md font-semibold mb-4 text-gray-700 dark:text-gray-300">
             Key Operational Indicators
@@ -145,7 +146,7 @@ const COOView: React.FC<COOViewProps> = ({
             ))}
           </div>
         </Card>
-      </div>
+      </FullWidthSection>
     </div>
   );
 };

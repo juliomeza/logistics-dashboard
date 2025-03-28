@@ -1,28 +1,47 @@
 import React from 'react';
-import { SubsidiaryPerformanceData, TimeSeriesData, RadarData } from '../data/types';
+import { SubsidiaryPerformanceData, TimeSeriesData, RadarData, KpiData } from '../data/types';
 import SimpleBarChart from '../components/charts/SimpleBarChart';
 import SimpleRadarChart from '../components/charts/SimpleRadarChart';
 import DataTable from '../components/tables/DataTable';
 import Card from '../components/common/Card';
+import KpiCard from '../components/common/KpiCard';
+import { KpiCardGrid, TwoColumnGrid, ThreeColumnGrid, FullWidthSection } from '../components/layout/StandardGrids';
+import { Building2, BarChart2, TrendingUp, Users } from 'lucide-react';
 
 interface SubsidiariesViewProps {
   subsidiaryMatrix: SubsidiaryPerformanceData[];
   financialComparisonCharts: { [key: string]: TimeSeriesData[] };
   operationalComparisonRadar: RadarData[];
+  subsidiaryKpis: KpiData[];
 }
 
 const SubsidiariesView: React.FC<SubsidiariesViewProps> = ({
   subsidiaryMatrix,
   financialComparisonCharts,
-  operationalComparisonRadar
+  operationalComparisonRadar,
+  subsidiaryKpis
 }) => {
   // Sort subsidiaries by revenue growth for ranking
   const sortedSubsidiaries = [...subsidiaryMatrix].sort((a, b) => b.revenueGrowth - a.revenueGrowth);
 
+  const icons = [
+    <Building2 size={20} />,
+    <TrendingUp size={20} />,
+    <BarChart2 size={20} />,
+    <Users size={20} />
+  ];
+
   return (
     <div className="space-y-6">
+      {/* KPI Cards */}
+      <KpiCardGrid>
+        {subsidiaryKpis.map((kpi, index) => (
+          <KpiCard key={kpi.title} kpi={kpi} icon={icons[index % icons.length]} />
+        ))}
+      </KpiCardGrid>
+
       {/* Subsidiary Financial Comparison Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <TwoColumnGrid>
         <Card>
           <SimpleBarChart
             data={financialComparisonCharts.revenue}
@@ -38,10 +57,10 @@ const SubsidiariesView: React.FC<SubsidiariesViewProps> = ({
             isPercentage={true}
           />
         </Card>
-      </div>
+      </TwoColumnGrid>
 
       {/* Operational Radar Chart and Subsidiary Rankings */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <ThreeColumnGrid>
         <Card>
           <SimpleRadarChart
             data={operationalComparisonRadar}
@@ -93,44 +112,46 @@ const SubsidiariesView: React.FC<SubsidiariesViewProps> = ({
             ))}
           </div>
         </Card>
-      </div>
+      </ThreeColumnGrid>
 
       {/* Complete Subsidiary Comparison Table */}
-      <Card>
-        <DataTable
-          title="Comprehensive Subsidiary Comparison"
-          data={subsidiaryMatrix}
-          keyExtractor={(item) => item.subsidiaryId}
-          columns={[
-            { key: 'subsidiaryName', header: 'Subsidiary' },
-            { 
-              key: 'revenueGrowth', 
-              header: 'Rev Growth', 
-              render: (item) => `${item.revenueGrowth.toFixed(1)}%` 
-            },
-            { 
-              key: 'profitMargin', 
-              header: 'Margin', 
-              render: (item) => `${item.profitMargin.toFixed(1)}%` 
-            },
-            { 
-              key: 'marketShare', 
-              header: 'Market Share', 
-              render: (item) => `${item.marketShare.toFixed(1)}%` 
-            },
-            { 
-              key: 'onTimeDelivery', 
-              header: 'OTD', 
-              render: (item) => `${item.onTimeDelivery.toFixed(1)}%` 
-            },
-            { 
-              key: 'customerSatisfaction', 
-              header: 'CSAT', 
-              render: (item) => `${item.customerSatisfaction}%` 
-            },
-          ]}
-        />
-      </Card>
+      <FullWidthSection>
+        <Card>
+          <DataTable
+            title="Comprehensive Subsidiary Comparison"
+            data={subsidiaryMatrix}
+            keyExtractor={(item) => item.subsidiaryId}
+            columns={[
+              { key: 'subsidiaryName', header: 'Subsidiary' },
+              { 
+                key: 'revenueGrowth', 
+                header: 'Rev Growth', 
+                render: (item) => `${item.revenueGrowth.toFixed(1)}%` 
+              },
+              { 
+                key: 'profitMargin', 
+                header: 'Margin', 
+                render: (item) => `${item.profitMargin.toFixed(1)}%` 
+              },
+              { 
+                key: 'marketShare', 
+                header: 'Market Share', 
+                render: (item) => `${item.marketShare.toFixed(1)}%` 
+              },
+              { 
+                key: 'onTimeDelivery', 
+                header: 'OTD', 
+                render: (item) => `${item.onTimeDelivery.toFixed(1)}%` 
+              },
+              { 
+                key: 'customerSatisfaction', 
+                header: 'CSAT', 
+                render: (item) => `${item.customerSatisfaction}%` 
+              },
+            ]}
+          />
+        </Card>
+      </FullWidthSection>
     </div>
   );
 };
