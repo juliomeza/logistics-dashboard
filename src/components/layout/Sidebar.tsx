@@ -1,21 +1,17 @@
 import React, { useState } from 'react';
-import { Building2, Menu, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { Building2, ChevronDown, ChevronUp } from 'lucide-react';
 import { Subsidiary } from '../../data/types';
 
 interface SidebarProps {
   subsidiaries: Subsidiary[];
   selectedSubsidiaryId: string;
   onSelectSubsidiary: (id: string) => void;
-  isMobileMenuOpen?: boolean;
-  onMobileMenuToggle?: () => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ 
   subsidiaries, 
   selectedSubsidiaryId, 
-  onSelectSubsidiary,
-  isMobileMenuOpen,
-  onMobileMenuToggle
+  onSelectSubsidiary
 }) => {
   const [isCompanyDropdownOpen, setIsCompanyDropdownOpen] = useState(false);
   const selectedSubsidiary = subsidiaries.find(sub => sub.id === selectedSubsidiaryId);
@@ -105,37 +101,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     </>
   );
 
-  // Mobile sidebar (hidden by default)
-  const mobileSidebar = (
-    <div className={`fixed inset-0 flex z-40 md:hidden transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-      {/* Overlay */}
-      <div 
-        className={`fixed inset-0 bg-gray-600 bg-opacity-75 transition-opacity ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}
-        onClick={onMobileMenuToggle}
-      ></div>
-      
-      {/* Sidebar */}
-      <div className={`relative flex-1 flex flex-col max-w-xs w-full bg-white dark:bg-gray-800 transform transition ease-in-out duration-300 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        {/* Close button */}
-        <div className="absolute top-0 right-0 -mr-12 pt-2">
-          <button
-            className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-            onClick={onMobileMenuToggle}
-          >
-            <span className="sr-only">Close sidebar</span>
-            <X size={24} className="text-white" />
-          </button>
-        </div>
-        
-        {/* Sidebar content */}
-        <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
-          <div className="px-4 space-y-2">
-            {sidebarContent}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  // Mobile sidebar removed - we're only using the dropdown selector on mobile
 
   // Desktop sidebar
   const desktopSidebar = (
@@ -148,21 +114,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <>
-      {/* Mobile Sidebar Toggle Button */}
-      <div className="md:hidden fixed top-4 left-4 z-30">
-        <button
-          onClick={onMobileMenuToggle}
-          className="p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-        >
-          <span className="sr-only">Open sidebar</span>
-          <Menu size={24} />
-        </button>
-      </div>
-
-      {/* Mobile Sidebar */}
-      {mobileSidebar}
-      
-      {/* Desktop Sidebar */}
+      {/* Desktop Sidebar only - no mobile sidebar functionality at all */}
       {desktopSidebar}
       
       {/* Mobile Company Selector Dropdown (always visible on mobile) */}
