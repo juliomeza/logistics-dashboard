@@ -5,7 +5,7 @@ import React from 'react';
  */
 export const KpiCardGrid: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full px-0">
       {children}
     </div>
   );
@@ -16,7 +16,7 @@ export const KpiCardGrid: React.FC<{ children: React.ReactNode }> = ({ children 
  */
 export const TwoColumnGrid: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full px-0">
       {children}
     </div>
   );
@@ -27,7 +27,7 @@ export const TwoColumnGrid: React.FC<{ children: React.ReactNode }> = ({ childre
  */
 export const ThreeColumnGrid: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full px-0">
       {children}
     </div>
   );
@@ -38,7 +38,7 @@ export const ThreeColumnGrid: React.FC<{ children: React.ReactNode }> = ({ child
  */
 export const FullWidthSection: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div className="w-full">
+    <div className="w-full px-0">
       {children}
     </div>
   );
