@@ -22,7 +22,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   // Mobile company selector dropdown
   const MobileCompanySelector = () => (
-    <div className="md:hidden fixed top-4 left-4 z-30 w-48">
+    <div className="md:hidden fixed top-4 left-4 z-30 w-36 sm:w-48">
       <button
         onClick={toggleCompanyDropdown}
         className="w-full flex items-center justify-between px-4 py-2 bg-white dark:bg-gray-800 rounded-md shadow-sm border border-gray-200 dark:border-gray-700"

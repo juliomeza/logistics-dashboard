@@ -136,7 +136,7 @@ function App() {
     return (
     <>
       {/* View Menu */}
-      <div className="md:hidden fixed top-4 right-4 z-40 w-48">
+      <div className="md:hidden fixed top-4 right-4 z-40 w-48 sm:w-48 w-36">
         <button
           onClick={toggleViewDropdown}
           className="w-full flex items-center justify-between px-4 py-2 bg-white dark:bg-gray-800 rounded-md shadow-sm border border-gray-200 dark:border-gray-700"
@@ -184,7 +184,7 @@ function App() {
       </div>
       
       {/* Custom Period Selector - positioned below the view menu */}
-      <div className="md:hidden fixed top-16 right-4 z-30 w-48">
+      <div className="md:hidden fixed top-16 right-4 z-30 w-48 sm:w-48 w-36">
         <button
           onClick={togglePeriodDropdown}
           className="w-full flex items-center justify-between px-4 py-2 bg-white dark:bg-gray-800 rounded-md shadow-sm border border-gray-200 dark:border-gray-700"
@@ -227,7 +227,7 @@ function App() {
       </div>
       
       {/* Selection Info - shows below the company selector */}
-      <div className="md:hidden fixed top-16 left-4 z-20 w-48 bg-white dark:bg-gray-800 px-3 py-2 rounded-md shadow-sm border border-gray-200 dark:border-gray-700">
+      <div className="md:hidden fixed top-16 left-4 z-20 w-48 sm:w-48 w-36 bg-white dark:bg-gray-800 px-3 py-2 rounded-md shadow-sm border border-gray-200 dark:border-gray-700">
         <div className="flex flex-col">
           <div className="flex items-center">
             <Building size={12} className="text-gray-500 dark:text-gray-400 mr-1.5" />
