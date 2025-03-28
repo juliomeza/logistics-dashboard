@@ -39,18 +39,17 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       {/* Main Content - Adjusted for sidebar presence on desktop */}
       <div className="md:pl-64 flex flex-col flex-1">
         <main className="flex-1 p-6 lg:p-8 overflow-y-auto w-full max-w-[1400px] mx-auto">
-          {/* Header Section - Moved up with reduced top margin */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 mt-4 md:mt-0">
+          {/* Header Section - Only visible on desktop */}
+          <div className="hidden md:flex md:flex-row justify-between items-center mb-6 gap-4 mt-0">
             <div>
               <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">{currentViewTitle}</h2>
-              {/* On desktop, this is shown. On mobile, it's hidden because we use the dropdown */}
               {selectedSubsidiary && (
-                <p className="text-sm text-gray-500 dark:text-gray-400 hidden md:block">
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   Displaying data for: <span className="font-medium">{selectedSubsidiary.name}</span>
                 </p>
               )}
             </div>
-            <div className="hidden md:block">
+            <div>
               <PeriodSelector selectedPeriod={selectedPeriod} onPeriodChange={onPeriodChange} />
             </div>
           </div>

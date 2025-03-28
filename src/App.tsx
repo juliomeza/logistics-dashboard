@@ -10,7 +10,6 @@ import COOView from './views/COOView';
 import SubsidiariesView from './views/SubsidiariesView';
 import ClientsView from './views/ClientsView';
 import LogisticsView from './views/LogisticsView';
-import PeriodSelector from './components/common/PeriodSelector';
 
 type Period = 'daily' | 'weekly' | 'monthly' | 'quarterly' | 'annual';
 type View = 'ceo' | 'cfo' | 'coo' | 'subsidiaries' | 'clients' | 'logistics';
