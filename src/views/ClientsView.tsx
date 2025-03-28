@@ -4,7 +4,7 @@ import KpiCard from '../components/common/KpiCard';
 import SimpleBarChart from '../components/charts/SimpleBarChart';
 import DataTable from '../components/tables/DataTable';
 import Card from '../components/common/Card';
-import { KpiCardGrid, TwoColumnGrid, FullWidthSection } from '../components/layout/StandardGrids';
+import { KpiCardGrid, TwoColumnGrid, ThreeColumnGrid } from '../components/layout/StandardGrids';
 import { Smile, Users, ArrowUpCircle, Star } from 'lucide-react';
 
 interface ClientsViewProps {
@@ -36,7 +36,7 @@ const ClientsView: React.FC<ClientsViewProps> = ({
         ))}
       </KpiCardGrid>
 
-      {/* Satisfaction by Subsidiary and Top Clients */}
+      {/* Client Satisfaction and Top Clients */}
       <TwoColumnGrid>
         <Card>
           <SimpleBarChart
@@ -72,17 +72,17 @@ const ClientsView: React.FC<ClientsViewProps> = ({
         </Card>
       </TwoColumnGrid>
 
-      {/* Recent Client Feedback */}
-      <FullWidthSection>
+      {/* Recent Feedback and All Clients */}
+      <ThreeColumnGrid>
         <Card>
           <h4 className="text-md font-semibold mb-4 text-gray-700 dark:text-gray-300">
             Recent Client Feedback
           </h4>
-          <div className="space-y-4">
+          <div className="space-y-4 max-h-[600px] overflow-y-auto pr-1">
             {recentFeedback.map((client) => (
               <div 
                 key={client.id} 
-                className="p-4 rounded-lg border border-gray-200 dark:border-gray-700"
+                className="p-3 rounded-lg border border-gray-200 dark:border-gray-700"
               >
                 <div className="flex justify-between items-start mb-2">
                   <h5 className="font-medium text-gray-800 dark:text-gray-200">
@@ -112,11 +112,8 @@ const ClientsView: React.FC<ClientsViewProps> = ({
             ))}
           </div>
         </Card>
-      </FullWidthSection>
-
-      {/* Full Client List */}
-      <FullWidthSection>
-        <Card>
+        
+        <Card className="lg:col-span-2">
           <DataTable
             title="All Clients"
             data={topClients}
@@ -146,7 +143,7 @@ const ClientsView: React.FC<ClientsViewProps> = ({
             ]}
           />
         </Card>
-      </FullWidthSection>
+      </ThreeColumnGrid>
     </div>
   );
 };

@@ -5,7 +5,7 @@ import SimpleRadarChart from '../components/charts/SimpleRadarChart';
 import DataTable from '../components/tables/DataTable';
 import Card from '../components/common/Card';
 import KpiCard from '../components/common/KpiCard';
-import { KpiCardGrid, TwoColumnGrid, ThreeColumnGrid, FullWidthSection } from '../components/layout/StandardGrids';
+import { KpiCardGrid, TwoColumnGrid, ThreeColumnGrid } from '../components/layout/StandardGrids';
 import { Building2, BarChart2, TrendingUp, Users } from 'lucide-react';
 
 interface SubsidiariesViewProps {
@@ -72,11 +72,11 @@ const SubsidiariesView: React.FC<SubsidiariesViewProps> = ({
           <h4 className="text-md font-semibold mb-4 text-gray-700 dark:text-gray-300">
             Subsidiary Rankings
           </h4>
-          <div className="space-y-4">
+          <div className="space-y-4 max-h-[600px] overflow-y-auto pr-1">
             {sortedSubsidiaries.map((sub, index) => (
               <div 
                 key={sub.subsidiaryId} 
-                className="p-4 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center"
+                className="p-3 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center"
               >
                 <div className="flex-shrink-0 mr-4 flex items-center justify-center w-8 h-8 bg-indigo-100 dark:bg-indigo-900 rounded-full">
                   <span className="text-indigo-600 dark:text-indigo-300 font-medium">
@@ -115,8 +115,8 @@ const SubsidiariesView: React.FC<SubsidiariesViewProps> = ({
       </ThreeColumnGrid>
 
       {/* Complete Subsidiary Comparison Table */}
-      <FullWidthSection>
-        <Card>
+      <ThreeColumnGrid>
+        <Card className="lg:col-span-3">
           <DataTable
             title="Comprehensive Subsidiary Comparison"
             data={subsidiaryMatrix}
@@ -151,7 +151,7 @@ const SubsidiariesView: React.FC<SubsidiariesViewProps> = ({
             ]}
           />
         </Card>
-      </FullWidthSection>
+      </ThreeColumnGrid>
     </div>
   );
 };
