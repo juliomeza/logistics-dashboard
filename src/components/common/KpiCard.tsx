@@ -10,7 +10,7 @@ interface KpiCardProps {
 
 const KpiCard: React.FC<KpiCardProps> = ({ kpi, icon }) => {
   const hasChange = kpi.change !== undefined && kpi.change !== null;
-  const isPositive = hasChange && kpi.change >= 0;
+  const isPositive = hasChange && (kpi.change || 0) >= 0;
 
   return (
     <Card className="flex flex-col justify-between">
@@ -22,7 +22,7 @@ const KpiCard: React.FC<KpiCardProps> = ({ kpi, icon }) => {
       {hasChange && (
         <div className={`flex items-center text-xs mt-1 ${isPositive ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
           {isPositive ? <ArrowUpRight size={14} className="mr-1" /> : <ArrowDownRight size={14} className="mr-1" />}
-          <span>{Math.abs(kpi.change)}% {kpi.description || 'vs last period'}</span>
+          <span>{Math.abs(kpi.change || 0)}% {kpi.description || 'vs last period'}</span>
         </div>
       )}
        {!hasChange && kpi.description && (

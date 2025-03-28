@@ -5,7 +5,7 @@ import SimpleLineChart from '../components/charts/SimpleLineChart'; // Assuming 
 import DataTable from '../components/tables/DataTable';
 import Card from '../components/common/Card';
 // Import other chart types as needed (e.g., SimpleGaugeChart)
-import { DollarSign, Activity, Users, Smile, BarChart, AlertTriangle, Info, XCircle } from 'lucide-react';
+import { DollarSign, Activity, Smile, BarChart, AlertTriangle, Info, XCircle } from 'lucide-react';
 
 interface CEOViewProps {
   kpis: KpiData[];

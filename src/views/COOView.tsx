@@ -6,7 +6,7 @@ import SimpleGaugeChart from '../components/charts/SimpleGaugeChart';
 import SimpleBarChart from '../components/charts/SimpleBarChart';
 import DataTable from '../components/tables/DataTable';
 import Card from '../components/common/Card';
-import { Clock, CheckCircle, BarChart, Truck, Activity } from 'lucide-react';
+import { CheckCircle, BarChart, Truck, Activity } from 'lucide-react';
 
 interface COOViewProps {
   operationalKpis: KpiData[];

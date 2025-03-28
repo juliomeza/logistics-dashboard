@@ -41,7 +41,7 @@ const SimpleLineChart: React.FC<SimpleLineChartProps> = ({ data, lines, xAxisKey
         <LineChart data={data} margin={{ top: 5, right: 10, left: -15, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#4B5563" /> {/* Darker grid for contrast */}
           <XAxis dataKey={xAxisKey} tick={{ fontSize: 12, fill: '#9CA3AF' }} /> {/* Gray ticks */}
-           <YAxis tickFormatter={formatYAxis} tick={{ fontSize: 12, fill: '#9CA3AF' }} domain={containsMarginOrRate ? [dataMin => Math.max(0, dataMin - 5), dataMax => Math.min(100, dataMax + 5)] : undefined}/>
+           <YAxis tickFormatter={formatYAxis} tick={{ fontSize: 12, fill: '#9CA3AF' }} domain={containsMarginOrRate ? [(dataMin: number) => Math.max(0, dataMin - 5), (dataMax: number) => Math.min(100, dataMax + 5)] : undefined}/>
           <Tooltip
             contentStyle={{ backgroundColor: '#1F2937', border: 'none', borderRadius: '4px' }} // Dark tooltip
             labelStyle={{ color: '#E5E7EB' }} // Light label

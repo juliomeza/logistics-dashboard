@@ -1,11 +1,9 @@
 import {
-    Truck,
     HeartPulse,
     Globe,
     Cpu,
     UtensilsCrossed,
     ShoppingBasket,
-    Building2, // Using a generic icon for subsidiaries
   } from 'lucide-react';
   import { Subsidiary, SubsidiaryPerformanceData, TimeSeriesData, KpiData, ClientData, AlertData, CarrierData, GaugeData, RadarData } from './types';
   
@@ -19,7 +17,6 @@ import {
   
   // Function to generate somewhat realistic random data
   const getRandom = (min: number, max: number, decimals: number = 0): number => {
-    const factor = Math.pow(10, decimals);
     return parseFloat((Math.random() * (max - min) + min).toFixed(decimals));
   };
   
