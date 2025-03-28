@@ -1,5 +1,5 @@
 import React from 'react';
-import { Building2 } from 'lucide-react'; // Default/Placeholder icon
+import { Building2 } from 'lucide-react';
 import { Subsidiary } from '../../data/types';
 
 interface SidebarProps {
@@ -13,11 +13,11 @@ const Sidebar: React.FC<SidebarProps> = ({ subsidiaries, selectedSubsidiaryId, o
     <div className="w-64 bg-white dark:bg-gray-800 shadow-lg p-4 flex flex-col space-y-2 h-screen sticky top-0">
         {/* Optional Logo Area */}
       <div className="mb-6 text-center">
-        <h1 className="text-xl font-bold text-indigo-600 dark:text-indigo-400">Logistics HQ</h1>
+        <h1 className="text-xl font-bold text-indigo-600 dark:text-indigo-400">KPower</h1>
         <p className="text-xs text-gray-500 dark:text-gray-400">Executive Dashboard</p>
       </div>
 
-      <h2 className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider px-2 mb-1">Subsidiaries</h2>
+      <h2 className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider px-2 mb-1">Companies</h2>
       {subsidiaries.map((sub) => {
         const Icon = sub.icon || Building2; // Use provided icon or default
         const isSelected = sub.id === selectedSubsidiaryId;

@@ -9,10 +9,10 @@ import {
   
   export const subsidiaries: Subsidiary[] = [
     { id: 'rhcl', name: 'Reliable HealthCare Logistics', icon: HeartPulse },
-    { id: 'gfs', name: 'Global Freight Solutions', icon: Globe },
-    { id: 'tsc', name: 'Tech Supply Chain Partners', icon: Cpu },
-    { id: 'fbd', name: 'Food & Beverage Distribution', icon: UtensilsCrossed },
-    { id: 'rfn', name: 'Retail Fulfillment Network', icon: ShoppingBasket },
+    { id: 'gfs', name: 'Phoenix', icon: Globe },
+    { id: 'tsc', name: 'Power Express', icon: Cpu },
+    { id: 'fbd', name: 'Fourth Company', icon: UtensilsCrossed },
+    { id: 'rfn', name: 'Fifth Company', icon: ShoppingBasket },
   ];
   
   // Function to generate somewhat realistic random data
